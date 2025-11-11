@@ -41,7 +41,7 @@ U /"___|/ __"| u |___"\  / __"| uU /"___|U |  _"\ u U  /"\  u U|  _"\ u\| ___"|/
 	total := len(config.List)
 
 	for i, item := range config.List {
-		url := "https://www.csgodatabase.com/cases/" + item + "/"
+		url := config.Target + "/cases/" + item + "/"
 		display := url
 		if len(url) > config.UrlLengthLimit {
 			display = url[:config.UrlLengthLimit-3] + "..."
