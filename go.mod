@@ -1,4 +1,4 @@
-module github.com/jexlor/cs2parser
+module github.com/jexlor/cs2scraper
 
 go 1.24
 

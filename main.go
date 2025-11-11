@@ -6,39 +6,27 @@ import (
 	"fmt"
 	"log"
 	"os"
-	"time"
+	"strings"
 
 	"github.com/chromedp/chromedp"
-	"github.com/jexlor/cs2parser/config"
-	"github.com/jexlor/cs2parser/custom"
+	"github.com/jexlor/cs2scraper/config"
+	"github.com/jexlor/cs2scraper/custom"
+	"github.com/jexlor/cs2scraper/internal"
 )
 
 func main() {
-
 	// fancy ascii title ;)
 	fmt.Print(`
-           ___                                 
-          |__ \                                
-   ___ ___   ) |_ __   __ _ _ __ ___  ___ _ __ 
-  / __/ __| / /| '_ \ / _` + "`" + ` | '__/ __|/ _ \ '__|
- | (__\__ \/ /_| |_) | (_| | |  \__ \  __/ |   
-  \___|___/____| .__/ \__,_|_|  |___/\___|_|   
-               | |                             
-               |_|                             
-`)
+   ____  ____     ____    ____      ____    ____        _       ____   U _____ u   ____     
+U /"___|/ __"| u |___"\  / __"| uU /"___|U |  _"\ u U  /"\  u U|  _"\ u\| ___"|/U |  _"\ u  
+\| | u <\___ \/  U __) |<\___ \/ \| | u   \| |_) |/  \/ _ \/  \| |_) |/ |  _|"   \| |_) |/  
+ | |/__ u___) |  \/ __/ \u___) |  | |/__   |  _ <    / ___ \   |  __/   | |___    |  _ <    
+  \____||____/>> |_____|u|____/>>  \____|  |_| \_\  /_/   \_\  |_|      |_____|   |_| \_\   
+ _// \\  )(  (__)<<  //   )(  (__)_// \\   //   \\_  \\    >>  ||>>_    <<   >>   //   \\_  
+(__)(__)(__)    (__)(__) (__)    (__)(__) (__)  (__)(__)  (__)(__)__)  (__) (__) (__)  (__) 
+		`)
 
-	//some extra flags to make sure script isn't detected
-	opts := append(chromedp.DefaultExecAllocatorOptions[:],
-		chromedp.Flag("headless", false),
-		chromedp.Flag("disable-blink-features", "AutomationControlled"),
-		chromedp.Flag("exclude-switches", "enable-automation"),
-		chromedp.Flag("disable-extensions", false),
-		chromedp.Flag("start-maximized", false),
-		chromedp.Flag("window-size", "800,600"),
-		chromedp.UserAgent("Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36"),
-	)
-
-	allocCtx, cancel := chromedp.NewExecAllocator(context.Background(), opts...)
+	allocCtx, cancel := chromedp.NewExecAllocator(context.Background(), config.Opts...)
 	defer cancel()
 
 	fmt.Println("\nCreating allocator context and applying flags...")
@@ -46,31 +34,28 @@ func main() {
 	defer cancel()
 	fmt.Println("Created allocator")
 
-	ctx, cancel = context.WithTimeout(ctx, 60*time.Second)
+	ctx, cancel = context.WithTimeout(ctx, config.DeadLine)
 	defer cancel()
 
-	list := []string{
-		"kilowatt-case", "revolution-case", "recoil-case", "dreams-nightmares-case", "sealed-genesis-terminal",
-		"snakebite-case", "fracture-case", "prisma-2-case", "cs20-case", "prisma-case", "danger-zone-case",
-		"horizon-case", "clutch-case", "spectrum-2-case", "operation-hydra-case", "spectrum-case", "glove-case",
-	}
-
 	var allSkins []config.Skin
-	total := len(list)
+	total := len(config.List)
 
-	for i, item := range list {
+	for i, item := range config.List {
 		url := "https://www.csgodatabase.com/cases/" + item + "/"
-		maxWidth := 60 // maximum width for the url display. adjust as needed.
 		display := url
-		if len(url) > maxWidth {
-			display = url[:maxWidth-3] + "..."
+		if len(url) > config.UrlLengthLimit {
+			display = url[:config.UrlLengthLimit-3] + "..."
 		}
 		fmt.Printf("\rProgress: (%d/%d) | Scraping: %-60s", i+1, total, display)
 		var pageTitle string
 		var rawData []map[string]string
 
 		// lets get string containing our js code to pass for evaluation
-		jsCode, err := os.ReadFile("config/script.js")
+		jsInject, err := os.ReadFile("config/scripts/script.js")
+		if err != nil {
+			log.Fatalf("Error reading JS file: %v", err)
+		}
+		jsWebDriver, err := os.ReadFile("config/scripts/config.js")
 		if err != nil {
 			log.Fatalf("Error reading JS file: %v", err)
 		}
@@ -78,21 +63,25 @@ func main() {
 		err = chromedp.Run(ctx,
 			chromedp.Navigate(url),
 			// trying to evade webdriver detection
-			chromedp.Evaluate(`
-				Object.defineProperty(navigator, 'webdriver', {get: () => undefined});
-				window.chrome = {runtime: {}};
-				Object.defineProperty(navigator, 'plugins', {get: () => [1,2,3,4,5]});`, nil),
+			chromedp.Evaluate(string(jsWebDriver), nil),
 
 			// that's to avoid triggering cloudflare/site protections. 1 sec is enough but the longer the better.
-			// you can even skip that line and comment it, but I don't recommend doing so.
-			// chromedp.Sleep(1*time.Second),
-			chromedp.Title(&pageTitle),
+			// you can even skip that line and comment it, depends on site tolerance, but I don't recommend doing so.
+			chromedp.Sleep(config.Delay),
+			chromedp.Title(&pageTitle), // get page title to check if we got blocked
 			// that js script goes straight to console of page and retrieves whatever selectors you write (its configurable)
-			chromedp.Evaluate(string(jsCode), &rawData),
+			chromedp.Evaluate(string(jsInject), &rawData),
 		)
 
 		if err != nil {
 			fmt.Printf("\nchromedp run failed: %v\n", err)
+			continue
+		}
+
+		if strings.Contains(strings.ToLower(pageTitle), "verify") ||
+			strings.Contains(strings.ToLower(pageTitle), "human") ||
+			strings.Contains(strings.ToLower(pageTitle), "just a moment") {
+			fmt.Printf("\n[!] We got detected %s\n", url)
 			continue
 		}
 
@@ -110,18 +99,19 @@ func main() {
 			})
 		}
 
-		jsonData, err := json.MarshalIndent(allSkins, "", "  ")
+		uniqueSkins := internal.RemoveDuplicates(allSkins)
+		jsonData, err := json.MarshalIndent(uniqueSkins, "", "  ")
 		if err != nil {
 			log.Fatalf("Error marshaling JSON: %v", err)
 		}
 		// if you want data to be printed on console
 		// fmt.Println(string(jsonData))
 
-		err = os.WriteFile("output.txt", jsonData, 0644)
+		err = os.WriteFile("output.json", jsonData, 0644)
 		if err != nil {
 			log.Fatalf("Error writing to file: %v", err)
 		}
 	}
 
-	fmt.Println("\nScraped data written to output.txt")
+	fmt.Println("\nScraped data written to output.json")
 }

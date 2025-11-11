@@ -1,5 +1,3 @@
-// fields, structs, types, structures, lists, urls, names, subdomains... we configure all here.
-
 package config
 
 // all those structs are main models of our json structure, example in structure.json
@@ -26,10 +24,3 @@ type PriceValue struct {
 	StattrakValue float64 `json:"stattrak_value"`
 	Unit          string  `json:"unit"`
 }
-
-// here you should add subdomains (in our case name of collection/case)
-// list := []string{
-// 	"kilowatt-case", "revolution-case", "recoil-case", "dreams-nightmares-case", "sealed-genesis-terminal",
-// 	"snakebite-case", "fracture-case", "prisma-2-case", "cs20-case", "prisma-case", "danger-zone-case",
-// 	"horizon-case", "clutch-case", "spectrum-2-case", "operation-hydra-case", "spectrum-case", "glove-case",
-// }

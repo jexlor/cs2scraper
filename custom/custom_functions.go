@@ -9,7 +9,7 @@ import (
 	"strings"
 	"time"
 
-	"github.com/jexlor/cs2parser/config"
+	"github.com/jexlor/cs2scraper/config"
 )
 
 func ParsePrice(raw, stattRaw string) config.Price {
