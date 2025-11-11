@@ -7,6 +7,7 @@ import (
 	"log"
 	"os"
 	"strings"
+	"time"
 
 	"github.com/chromedp/chromedp"
 	"github.com/jexlor/cs2scraper/config"
@@ -29,7 +30,7 @@ U /"___|/ __"| u |___"\  / __"| uU /"___|U |  _"\ u U  /"\  u U|  _"\ u\| ___"|/
 	allocCtx, cancel := chromedp.NewExecAllocator(context.Background(), config.Opts...)
 	defer cancel()
 
-	fmt.Println("\nCreating allocator context and applying flags...")
+	fmt.Println("\nCreating allocator context and applying opts...")
 	ctx, cancel := chromedp.NewContext(allocCtx)
 	defer cancel()
 	fmt.Println("Created allocator")
@@ -37,7 +38,9 @@ U /"___|/ __"| u |___"\  / __"| uU /"___|U |  _"\ u U  /"\  u U|  _"\ u\| ___"|/
 	ctx, cancel = context.WithTimeout(ctx, config.DeadLine)
 	defer cancel()
 
+	//essentials
 	var allSkins []config.Skin
+
 	total := len(config.List)
 
 	for i, item := range config.List {
@@ -98,20 +101,27 @@ U /"___|/ __"| u |___"\  / __"| uU /"___|U |  _"\ u U  /"\  u U|  _"\ u\| ___"|/
 				URL:        data["url"],
 			})
 		}
-
-		uniqueSkins := internal.RemoveDuplicates(allSkins)
-		jsonData, err := json.MarshalIndent(uniqueSkins, "", "  ")
-		if err != nil {
-			log.Fatalf("Error marshaling JSON: %v", err)
-		}
-		// if you want data to be printed on console
-		// fmt.Println(string(jsonData))
-
-		err = os.WriteFile("output.json", jsonData, 0644)
-		if err != nil {
-			log.Fatalf("Error writing to file: %v", err)
-		}
 	}
 
-	fmt.Println("\nScraped data written to output.json")
+	uniqueSkins := internal.RemoveDuplicates(allSkins)
+	jsonData, err := json.MarshalIndent(uniqueSkins, "", "  ")
+	if err != nil {
+		log.Fatalf("Error marshaling JSON: %v", err)
+	}
+
+	// if you want data to be printed to console
+	if config.ConsoleLog {
+		fmt.Println(string(jsonData))
+	}
+
+	// generate filename with current date
+	timestamp := time.Now().Format("2006-01-02")
+	filename := fmt.Sprintf("output_%s.json", timestamp)
+
+	err = os.WriteFile(filename, jsonData, 0644)
+	if err != nil {
+		log.Fatalf("Error writing to file: %v", err)
+	}
+
+	fmt.Printf("\n[+] Scraped data written to %s\n", filename)
 }
