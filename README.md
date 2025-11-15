@@ -1,6 +1,5 @@
 ## Cs2Scraper  [![PkgGoDev](https://pkg.go.dev/badge/github.com/jexlor/cs2scraper)](https://pkg.go.dev/github.com/jexlor/cs2scraper) (Beta)
 
---------------------------------------------
 
 <strong>cs2scraper</strong> is a scraping tool to retrieve fresh data and wrap it up in convenient JSON file with clean structure. The idea is simple, you run script to target already pre configured target site and get data.
 
@@ -33,7 +32,6 @@ Example structure:
 ```
 
 ## Ways of Use
---------------------------------------------
 
 1. **Run locally** to generate a full JSON file containing all scraped skin data.
 2. **Import the package as a library** to get a populated `[]Skin` struct returned directly from your Go code.
@@ -42,20 +40,17 @@ Example structure:
 
 
 <strong>Disclaimer!</strong>
---------------------------------------------
 
 Since the script subtly “unofficially” targets online databases, in our case the popular site <a href="https://www.csgodatabase.com/">CSGO Database</a>, you must understand that all responsibility lies with you. Whether you use the data for a hobby project, a real website, or any form of monetization, you are solely accountable for the consequences.
 
 Even though the script simply retrieves data that is already visible to you, but script is developed the way to bypass anti-bot systems, which can be considered a violation of the target website’s terms of service.
 
 ## About Technical Stuff
---------------------------------------------
 The scraper works **synchronously** because the chance of success when running a headless browser with goroutines is virtually zero if the target site has any protection. In our case, the target has **Cloudflare** and strong anti-bot systems.  
 
 The script uses a Chromium instance to make synchronous requests to pre-configured URLs, injects custom JavaScript to retrieve data specified by selectors, and then navigates to the next URL in sequence. This approach ensures reliable scraping while minimizing detection.
 
 ## Why Chromium?
---------------------------------------------
 The scraper uses the `chromedp` library because it provides a **high-level interface for controlling Chromium** programmatically. This allows us to:
 
 - Navigate websites like a real browser.
@@ -65,14 +60,12 @@ The scraper uses the `chromedp` library because it provides a **high-level inter
 - And it helps disguise the script as a real user because it operates through an actual browser.
 
 ## What you should have 
---------------------------------------------
 
 1. Golang obviously
 2. Chromium `sudo apt install chromium-browser`
 
 
 ## Now let's get started 
---------------------------------------------
 
 ## If you want to run script locally and get JSON
 
@@ -117,7 +110,6 @@ Here is literally everything that you can modify if you want
 ```
 
 ## Future Plans & Current Situation
---------------------------------------------
 
 Our main goal is to make the scraper as **flexible and configurable as possible**, so that virtually everything can be adjusted **without modifying the scraping logic itself**.  
 
@@ -126,9 +118,9 @@ Different targets use different classes, protections, subdomains, URLs, and over
 For now, the scraper works and is fairly configurable if you download it locally. Expanding it to new targets requires investigating their classes and page structures. The ultimate goal is to allow scraping new targets **by changing only the configuration**, without touching the core logic. As the scraper grows and begins to include scraping for **Agents, Stickers, Souvenir packages**, and other items, it is becoming even more challenging to maintain flexibility and configurability.
 
 ## Community Contributions
---------------------------------------------
 The project greatly benefits from community input. If you have suggestions, improvements, or want to help expand support for new targets, configurations, or features, your contribution is welcome.  
 
 Whether it's reporting issues, improving scripts, or submitting pull requests, every helping hand makes the scraper more powerful and flexible for everyone.
 
 *— Jexlor*
+
