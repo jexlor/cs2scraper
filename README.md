@@ -1,4 +1,4 @@
-<h1>Cs2Scraper</h1>  [![PkgGoDev](https://pkg.go.dev/badge/github.com/jexlor/cs2scraper)](https://pkg.go.dev/github.com/jexlor/cs2scraper) (Beta)
+## Cs2Scraper [![PkgGoDev](https://pkg.go.dev/badge/github.com/jexlor/cs2scraper)](https://pkg.go.dev/github.com/jexlor/cs2scraper) (Beta)
 
 
 <strong>cs2scraper</strong> is a scraping tool to retrieve fresh data and wrap it up in convenient JSON file with clean structure. The idea is simple, you run script to target already pre configured target site and get data.
