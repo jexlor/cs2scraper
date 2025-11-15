@@ -106,7 +106,7 @@ skins, err := scraper.ScrapSkins()
 Here is literally everything that you can modify if you want
 
 ```go
-	import "github.com/jexlor/cs2scraper/scraper/config"
+import "github.com/jexlor/cs2scraper/scraper/config"
 ```
 
 ## Future Plans & Current Situation
@@ -123,6 +123,7 @@ The project greatly benefits from community input. If you have suggestions, impr
 Whether it's reporting issues, improving scripts, or submitting pull requests, every helping hand makes the scraper more powerful and flexible for everyone.
 
 *— Jexlor*
+
 
 
 
