@@ -14,7 +14,7 @@ import (
 func main() {
 
 	// here we run our scraper
-	skins, err := scraper.ScrapSkins()
+	skins, err := scraper.ScrapeSkins()
 	if err != nil {
 		log.Fatalf("Error during scraping: %v", err)
 	}

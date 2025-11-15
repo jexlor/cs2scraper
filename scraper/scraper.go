@@ -19,7 +19,7 @@ var ScriptJS string
 var ConfigJS string
 
 // Run func executes the scraping process and returns a slice of Skin structs with error if any.
-func ScrapSkins() ([]config.Skin, error) {
+func ScrapeSkins() ([]config.Skin, error) {
 	// fancy ascii title ;)
 	fmt.Print(`
    ____  ____     ____    ____      ____    ____        _       ____   U _____ u   ____     
