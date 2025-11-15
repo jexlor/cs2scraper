@@ -109,6 +109,8 @@ skins, err := scraper.ScrapeSkins()
 
 `/scraper/config/scripts` configure Javascript code  <br>
 
+`../custom` additional custom functions 
+
 
 ## Future Plans & Current Situation
 
@@ -124,6 +126,7 @@ The project greatly benefits from community input. If you have suggestions, impr
 Whether it's reporting issues, improving scripts, or submitting pull requests, every helping hand makes the scraper more powerful and flexible for everyone.
 
 *— Jexlor*
+
 
 
 
