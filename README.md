@@ -61,7 +61,7 @@ The scraper uses the `chromedp` library because it provides a **high-level inter
 
 ## What you should have 
 
-1. Golang obviously
+1. <a href="https://go.dev/doc/install">Golang</a> obviously
 2. Chromium `sudo apt install chromium-browser`
 
 
@@ -123,6 +123,7 @@ The project greatly benefits from community input. If you have suggestions, impr
 Whether it's reporting issues, improving scripts, or submitting pull requests, every helping hand makes the scraper more powerful and flexible for everyone.
 
 *— Jexlor*
+
 
 
 
