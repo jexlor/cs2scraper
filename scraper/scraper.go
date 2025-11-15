@@ -57,16 +57,6 @@ U /"___|/ __"| u |___"\  / __"| uU /"___|U |  _"\ u U  /"\  u U|  _"\ u\| ___"|/
 		var pageTitle string
 		var rawData []map[string]string
 
-		// lets get string containing our js code to pass for evaluation
-		// jsInject, err := os.ReadFile("config/scripts/script.js")
-		// if err != nil {
-		// 	log.Fatalf("Error reading JS file: %v", err)
-		// }
-		// jsWebDriver, err := os.ReadFile("config/scripts/config.js")
-		// if err != nil {
-		// 	log.Fatalf("Error reading JS file: %v", err)
-		// }
-
 		err := chromedp.Run(ctx,
 			chromedp.Navigate(url),
 			// trying to evade webdriver detection
