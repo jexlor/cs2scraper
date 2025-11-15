@@ -103,11 +103,10 @@ skins, err := scraper.ScrapeSkins()
 
 3. **Configure scraper settings(optional)**
 
-Here is literally everything that you can modify if you want
+`/scraper/config` main scraper settings
+`/scraper/config/models` all structs and fields for structure
+`/scraper/config/scripts` configure Javascript code 
 
-```go
-import "github.com/jexlor/cs2scraper/scraper/config"
-```
 
 ## Future Plans & Current Situation
 
@@ -123,6 +122,7 @@ The project greatly benefits from community input. If you have suggestions, impr
 Whether it's reporting issues, improving scripts, or submitting pull requests, every helping hand makes the scraper more powerful and flexible for everyone.
 
 *— Jexlor*
+
 
 
 
