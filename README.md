@@ -103,9 +103,9 @@ skins, err := scraper.ScrapeSkins()
 
 3. **Configure scraper settings(optional)**
 
-`/scraper/config` main scraper settings
-`/scraper/config/models` all structs and fields for structure
-`/scraper/config/scripts` configure Javascript code 
+`/scraper/config` main scraper settings <br>
+`/scraper/config/models` all structs and fields for structure <br>
+`/scraper/config/scripts` configure Javascript code  <br>
 
 
 ## Future Plans & Current Situation
@@ -122,6 +122,7 @@ The project greatly benefits from community input. If you have suggestions, impr
 Whether it's reporting issues, improving scripts, or submitting pull requests, every helping hand makes the scraper more powerful and flexible for everyone.
 
 *— Jexlor*
+
 
 
 
