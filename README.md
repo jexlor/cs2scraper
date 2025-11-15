@@ -67,7 +67,7 @@ The scraper uses the `chromedp` library because it provides a **high-level inter
 
 ## Now let's get started 
 
-## If you want to run script locally and get JSON
+# If you want to run script locally
 
 1. **Clone repository**
 
@@ -123,4 +123,5 @@ The project greatly benefits from community input. If you have suggestions, impr
 Whether it's reporting issues, improving scripts, or submitting pull requests, every helping hand makes the scraper more powerful and flexible for everyone.
 
 *— Jexlor*
+
 
