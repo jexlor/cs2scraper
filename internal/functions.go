@@ -1,6 +1,6 @@
 package internal
 
-import "github.com/jexlor/cs2scraper/config"
+import "github.com/jexlor/cs2scraper/scraper/config"
 
 func RemoveDuplicates(skins []config.Skin) []config.Skin {
 	seen := make(map[string]bool)
