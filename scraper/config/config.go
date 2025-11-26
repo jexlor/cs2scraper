@@ -26,7 +26,7 @@ const (
 	Target         = "https://www.csgodatabase.com" // target site to scrape from
 	DeadLine       = 120 * time.Second              // time limit for context
 	UrlLengthLimit = 60                             // shorten url to specified length
-	Delay          = 1 * time.Second                // delay to avoid triggering site protections
+	Delay          = 250 * time.Millisecond         // delay to avoid triggering site protections
 	ConsoleLog     = false                          // log output to console
 )
 

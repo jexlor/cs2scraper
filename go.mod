@@ -2,7 +2,7 @@ module github.com/jexlor/cs2scraper
 
 go 1.24
 
-toolchain go1.24.0
+toolchain go1.25.4
 
 require github.com/chromedp/chromedp v0.14.2
 
